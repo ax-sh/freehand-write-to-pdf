@@ -8,12 +8,15 @@ export function RangeSlider({
   setValue: (value: number) => void;
 }) {
   return (
-    <input
-      type='range'
-      min='2'
-      max='10'
-      value={value}
-      onInput={({ target }: ChangeEvent<HTMLInputElement>) => setValue(target.valueAsNumber)}
-    />
+    <div>
+      <span>Brush size</span>
+      <input
+        type='range'
+        min='2'
+        max='10'
+        value={value}
+        onInput={({ target }: ChangeEvent<HTMLInputElement>) => setValue(target.valueAsNumber)}
+      />
+    </div>
   );
 }

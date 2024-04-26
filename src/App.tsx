@@ -1,7 +1,6 @@
 import { usePdf } from '@mikecousins/react-pdf';
-import { useEffect, useRef, useState } from 'react';
+import { ElementRef, useEffect, useRef, useState } from 'react';
 
-import './App.scss';
 import { RangeSlider } from './range-slider.tsx';
 
 const file = 'custom.pdf';
@@ -14,7 +13,7 @@ function App() {
     currX: 0,
     currY: 0
   });
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<ElementRef<'canvas'>>(null);
   const [thickness, setThickness] = useState<number>(2);
   const [page] = useState<number>(1);
   const [color] = useState<string>('black');
@@ -34,7 +33,7 @@ function App() {
       return { x, y };
     };
 
-    const handler = function (e) {
+    const handler = function (e: MouseEvent) {
       const state = stateRef.current;
       state.prevX = state.currX;
       state.prevY = state.currY;
@@ -52,7 +51,7 @@ function App() {
           state.pressed = false;
           break;
         case 'mousemove':
-          if (state.pressed) {
+          if (ctx && state.pressed) {
             ctx.beginPath();
             ctx.moveTo(state.prevX, state.prevY);
             ctx.lineTo(state.currX, state.currY);
@@ -79,13 +78,13 @@ function App() {
     };
   }, [thickness, color]);
   return (
-    <div>
+    <main className={'container mx-auto relative'}>
       <div>
         <span>menu</span>
         <RangeSlider value={thickness} setValue={setThickness} />
       </div>
       <canvas className={'w-full h-full'} ref={canvasRef} />
-    </div>
+    </main>
   );
 }
 
