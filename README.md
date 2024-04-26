@@ -1,5 +1,19 @@
-*A POC for writing on pdf file*
+_A POC for writing on pdf file_
 
-***Features***
+**_Features_**
+
 - Change brush size
 - Change brush thickness
+
+_To Run_
+
+````shell
+
+pnpm i
+pnpm dev
+
+or
+
+npm i
+npm run dev```
+````
