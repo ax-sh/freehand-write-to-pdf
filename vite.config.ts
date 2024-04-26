@@ -4,5 +4,18 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ['pdfjs-dist'], // optionally specify dependency name
+    esbuildOptions: {
+      supported: {
+        'top-level-await': true
+      }
+    }
+  },
+  esbuild: {
+    supported: {
+      'top-level-await': true
+    }
+  },
   plugins: [react(), UnoCSS()]
 });
