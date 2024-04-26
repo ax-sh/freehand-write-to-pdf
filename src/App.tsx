@@ -1,21 +1,16 @@
-import "./App.scss";
-import { usePdf } from "@mikecousins/react-pdf";
-import { useEffect, useRef, useState } from "react";
+import { usePdf } from '@mikecousins/react-pdf';
+import { useEffect, useRef, useState } from 'react';
 
-const file = "custom.pdf";
+import './App.scss';
 
-function RangeSlider({
-  value,
-  setValue,
-}: {
-  value: number;
-  setValue: (value: number) => void;
-}) {
+const file = 'custom.pdf';
+
+function RangeSlider({ value, setValue }: { value: number; setValue: (value: number) => void }) {
   return (
     <input
-      type="range"
-      min="2"
-      max="10"
+      type='range'
+      min='2'
+      max='10'
       value={value}
       onInput={({ target }) => setValue(+target.value)}
     />
@@ -25,12 +20,12 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [thickness, setThickness] = useState<number>(2);
   const [page] = useState<number>(1);
-  const [color] = useState<string>("black");
+  const [color] = useState<string>('black');
   // const { pdfDocument, pdfPage } =
   usePdf({
     canvasRef,
     file,
-    page,
+    page
   });
   useEffect(() => {
     let flag = false,
@@ -39,8 +34,9 @@ function App() {
       currX = 0,
       currY = 0;
     const $canvas = canvasRef.current;
-    const ctx = $canvas.getContext("2d");
-    const getMouesPosition = ({ offsetX, offsetY }) => {
+    if (!$canvas) return;
+    const ctx = $canvas.getContext('2d');
+    const getMouesPosition = ({ offsetX, offsetY }: { offsetX: number; offsetY: number }) => {
       const x = ((offsetX * $canvas.width) / $canvas.clientWidth) | 0;
       const y = ((offsetY * $canvas.height) / $canvas.clientHeight) | 0;
       return { x, y };
@@ -55,14 +51,14 @@ function App() {
       currY = y;
 
       switch (e.type) {
-        case "mousedown":
+        case 'mousedown':
           flag = true;
           break;
-        case "mouseup":
-        case "mouseout":
+        case 'mouseup':
+        case 'mouseout':
           flag = false;
           break;
-        case "mousemove":
+        case 'mousemove':
           if (flag) {
             ctx.beginPath();
             ctx.moveTo(prevX, prevY);
@@ -78,15 +74,15 @@ function App() {
       }
     };
 
-    $canvas.addEventListener("mousemove", handler);
-    $canvas.addEventListener("mousedown", handler);
-    $canvas.addEventListener("mouseup", handler);
-    $canvas.addEventListener("mouseout", handler);
+    $canvas.addEventListener('mousemove', handler);
+    $canvas.addEventListener('mousedown', handler);
+    $canvas.addEventListener('mouseup', handler);
+    $canvas.addEventListener('mouseout', handler);
     return () => {
-      $canvas.removeEventListener("mousemove", handler);
-      $canvas.removeEventListener("mousedown", handler);
-      $canvas.removeEventListener("mouseup", handler);
-      $canvas.removeEventListener("mouseout", handler);
+      $canvas.removeEventListener('mousemove', handler);
+      $canvas.removeEventListener('mousedown', handler);
+      $canvas.removeEventListener('mouseup', handler);
+      $canvas.removeEventListener('mouseout', handler);
     };
   }, [thickness, color]);
   return (
@@ -95,7 +91,7 @@ function App() {
         <span>menu</span>
         <RangeSlider value={thickness} setValue={setThickness} />
       </div>
-      <canvas className={"w-full h-full"} ref={canvasRef} />
+      <canvas className={'w-full h-full'} ref={canvasRef} />
     </div>
   );
 }
