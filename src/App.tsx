@@ -7,6 +7,13 @@ import { RangeSlider } from './range-slider.tsx';
 const file = 'custom.pdf';
 
 function App() {
+  const stateRef = useRef({
+    pressed: false,
+    prevX: 0,
+    prevY: 0,
+    currX: 0,
+    currY: 0
+  });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [thickness, setThickness] = useState<number>(2);
   const [page] = useState<number>(1);
@@ -18,11 +25,6 @@ function App() {
     page
   });
   useEffect(() => {
-    let flag = false,
-      prevX = 0,
-      prevY = 0,
-      currX = 0,
-      currY = 0;
     const $canvas = canvasRef.current;
     if (!$canvas) return;
     const ctx = $canvas.getContext('2d');
@@ -33,26 +35,27 @@ function App() {
     };
 
     const handler = function (e) {
-      prevX = currX;
-      prevY = currY;
+      const state = stateRef.current;
+      state.prevX = state.currX;
+      state.prevY = state.currY;
       const { x, y } = getMouesPosition(e);
 
-      currX = x;
-      currY = y;
+      state.currX = x;
+      state.currY = y;
 
       switch (e.type) {
         case 'mousedown':
-          flag = true;
+          state.pressed = true;
           break;
         case 'mouseup':
         case 'mouseout':
-          flag = false;
+          state.pressed = false;
           break;
         case 'mousemove':
-          if (flag) {
+          if (state.pressed) {
             ctx.beginPath();
-            ctx.moveTo(prevX, prevY);
-            ctx.lineTo(currX, currY);
+            ctx.moveTo(state.prevX, state.prevY);
+            ctx.lineTo(state.currX, state.currY);
             ctx.strokeStyle = color;
             ctx.lineWidth = thickness;
             ctx.stroke();
