@@ -17,9 +17,8 @@ function App() {
   const canvasRef = useRef<ElementRef<'canvas'>>(null);
   const [thickness, setThickness] = useState<number>(2);
   const [color, setColor] = useState<string>('black');
-  const [page] = useState<number>(1);
-  // const { pdfDocument, pdfPage } =
-  usePdf({
+  const [page, setPage] = useState<number>(1);
+  const { pdfDocument, pdfPage } = usePdf({
     canvasRef,
     file,
     page
@@ -89,6 +88,22 @@ function App() {
         <BrushSizeSlider value={thickness} setValue={setThickness} />
       </div>
       <canvas className={'w-full h-full'} ref={canvasRef} />
+      {Boolean(pdfDocument && pdfDocument.numPages) && (
+        <nav>
+          <ul className='pager'>
+            <li className='previous'>
+              <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                Previous
+              </button>
+            </li>
+            <li className='next'>
+              <button disabled={page === pdfDocument.numPages} onClick={() => setPage(page + 1)}>
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
     </main>
   );
 }
