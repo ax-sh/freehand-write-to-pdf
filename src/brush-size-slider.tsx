@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-export function RangeSlider({
+export function BrushSizeSlider({
   value,
   setValue
 }: {
@@ -8,7 +8,7 @@ export function RangeSlider({
   setValue: (value: number) => void;
 }) {
   return (
-    <div>
+    <label className={'flex justify-center items-center w-full'}>
       <span>Brush size</span>
       <input
         type='range'
@@ -17,6 +17,6 @@ export function RangeSlider({
         value={value}
         onInput={({ target }: ChangeEvent<HTMLInputElement>) => setValue(target.valueAsNumber)}
       />
-    </div>
+    </label>
   );
 }

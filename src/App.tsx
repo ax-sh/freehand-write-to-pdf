@@ -1,7 +1,8 @@
 import { usePdf } from '@mikecousins/react-pdf';
 import { ElementRef, useEffect, useRef, useState } from 'react';
 
-import { RangeSlider } from './range-slider.tsx';
+import { BrushColorPicker } from './brush-color-picker.tsx';
+import { BrushSizeSlider } from './brush-size-slider.tsx';
 
 const file = 'custom.pdf';
 
@@ -16,7 +17,7 @@ function App() {
   const canvasRef = useRef<ElementRef<'canvas'>>(null);
   const [thickness, setThickness] = useState<number>(2);
   const [page] = useState<number>(1);
-  const [color] = useState<string>('black');
+  const [color, setColor] = useState<string>('black');
   // const { pdfDocument, pdfPage } =
   usePdf({
     canvasRef,
@@ -27,6 +28,8 @@ function App() {
     const $canvas = canvasRef.current;
     if (!$canvas) return;
     const ctx = $canvas.getContext('2d');
+    if (!ctx) return;
+
     const getMouesPosition = ({ offsetX, offsetY }: { offsetX: number; offsetY: number }) => {
       const x = ((offsetX * $canvas.width) / $canvas.clientWidth) | 0;
       const y = ((offsetY * $canvas.height) / $canvas.clientHeight) | 0;
@@ -51,7 +54,7 @@ function App() {
           state.pressed = false;
           break;
         case 'mousemove':
-          if (ctx && state.pressed) {
+          if (state.pressed) {
             ctx.beginPath();
             ctx.moveTo(state.prevX, state.prevY);
             ctx.lineTo(state.currX, state.currY);
@@ -81,7 +84,9 @@ function App() {
     <main className={'container mx-auto relative'}>
       <div>
         <span>menu</span>
-        <RangeSlider value={thickness} setValue={setThickness} />
+
+        <BrushColorPicker color={color} setColor={setColor} />
+        <BrushSizeSlider value={thickness} setValue={setThickness} />
       </div>
       <canvas className={'w-full h-full'} ref={canvasRef} />
     </main>
