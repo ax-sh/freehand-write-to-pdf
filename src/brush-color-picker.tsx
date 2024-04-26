@@ -6,7 +6,7 @@ export function BrushColorPicker({
   setColor: (e: string) => void;
 }) {
   return (
-    <label className={'flex justify-center items-center w-full'}>
+    <label className={'flex gap-2 items-center w-full'}>
       <span>Brush color</span>
       <input type='color' value={color} onChange={(e) => setColor(e.target.value)} />
     </label>

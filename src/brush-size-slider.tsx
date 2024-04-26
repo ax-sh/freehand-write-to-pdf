@@ -8,7 +8,7 @@ export function BrushSizeSlider({
   setValue: (value: number) => void;
 }) {
   return (
-    <label className={'flex justify-center items-center w-full'}>
+    <label className={'flex gap-2 items-center w-full'}>
       <span>Brush size</span>
       <input
         type='range'
