@@ -2,20 +2,10 @@ import { usePdf } from '@mikecousins/react-pdf';
 import { useEffect, useRef, useState } from 'react';
 
 import './App.scss';
+import { RangeSlider } from './range-slider.tsx';
 
 const file = 'custom.pdf';
 
-function RangeSlider({ value, setValue }: { value: number; setValue: (value: number) => void }) {
-  return (
-    <input
-      type='range'
-      min='2'
-      max='10'
-      value={value}
-      onInput={({ target }) => setValue(+target.value)}
-    />
-  );
-}
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [thickness, setThickness] = useState<number>(2);
