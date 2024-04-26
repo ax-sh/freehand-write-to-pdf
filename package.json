@@ -9,7 +9,8 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "deploy": "pnpm build && gh-pages -d dist"
   },
   "dependencies": {
     "@mikecousins/react-pdf": "^7.0.4",
