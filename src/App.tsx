@@ -16,8 +16,8 @@ function App() {
   });
   const canvasRef = useRef<ElementRef<'canvas'>>(null);
   const [thickness, setThickness] = useState<number>(2);
-  const [page] = useState<number>(1);
   const [color, setColor] = useState<string>('black');
+  const [page] = useState<number>(1);
   // const { pdfDocument, pdfPage } =
   usePdf({
     canvasRef,
